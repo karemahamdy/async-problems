@@ -47,3 +47,56 @@ async function displayOperations() {
 }
 
 displayOperations();
+
+// Write a JavaScript a function that makes an HTTP GET request and returns a Promise that resolves with the response data.
+// function makeGetRequest(url) {
+//   return new Promise((resolve, reject) => {
+//     fetch(url)
+//       .then(response => {
+//         if (!response.ok) {
+//           throw new Error(`HTTP error! Status: ${response.status}`);
+//         }
+//         return response.json();
+//       })
+//       .then(data => resolve(data))
+//       .catch(error => reject(error));
+//   });
+// }
+// makeGetRequest('https://example.com/data')
+
+// Write a JavaScript function that fetches data from multiple APIs concurrently and returns a combined result using Promises and 'Promise.all()'.
+function fetchMiltiApis (url) {
+  return new Promise((resolve, reject) => {
+    fetch(url)
+      .then(response => {
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        return response.json();
+      })
+      .then(data => resolve(data))
+      .catch(error => reject(error));
+  });
+}
+
+function displayAllApis (apisUrl){
+  const promises = apisUrl.map(url => fetchMiltiApis(url))
+  return Promise.all(promises)
+}
+
+const apisUrl = [
+  'https://jsonplaceholder.typicode.com/posts/4',
+  'https://jsonplaceholder.typicode.com/posts/5',
+  'https://jsonplaceholder.typicode.com/posts/6'
+];
+
+fetchMiltiApis(apisUrl)
+  .then(results => {
+    console.log('Combined Results:', results);
+  })
+  .catch(error => {
+    console.log('Error:', error.message);
+  });
+
+
+  // 
